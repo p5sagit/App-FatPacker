@@ -153,7 +153,7 @@ sub script_command_file {
   my ($self, $args) = @_;
   my $file = shift @$args;
   my $cwd = cwd;
-  my @dirs = map rel2abs($_, $cwd), ('lib','fatlib');
+  my @dirs = grep { -d $_ } map rel2abs($_, $cwd), ('lib','fatlib');
   my %files;
   foreach my $dir (@dirs) {
     find(sub {

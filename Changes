@@ -1,3 +1,6 @@
+  - Don't break if there is only a single script to be fatpacked,
+    without ther being a lib/ directory present.
+
   - Add repsoitory metadata to META.YML
 
 0.9.6 2011-01-18
