@@ -74,10 +74,7 @@ Current basic recipe for packing:
   $ fatpack trace myscript.pl
   $ fatpack packlists-for `cat fatpacker.trace` >packlists
   $ fatpack tree `cat packlists`
-  $ (head -n1 myscript.pl |grep '^#!'; fatpack file; cat myscript.pl) >myscript.packed.pl
-
-The C<head -n1 myscript.pl |grep '^#!'> code pulls out the Unix shebang
-line, if there is one, and injects it at the start of the packed script.
+  $ fatpack file myscript.pl >myscript.packed.pl
 
 =head1 COPYRIGHT, LICENSE, AUTHOR
 
