@@ -234,7 +234,19 @@ sub script_command_file {
     '$fatpacked{'.perlstring($_).qq!} = <<'${name}';\n!
     .qq!${data}${name}\n!;
   } sort keys %files;
-  print join "\n", $start, @segments, $end;
+  my $shebang = "";
+  my $script = "";
+  if ( defined $file and -r $file ) {
+    open my $fh, "<", $file or die("Can't read $file: $!");
+    $shebang = <$fh>;
+    $script = join "", <$fh>;
+    close $fh;
+    unless ( index($shebang, '#!') == 0 ) {
+      $script = $shebang . $script;
+      $shebang = "";
+    }
+  }
+  print join "\n", $shebang, $start, @segments, $end, $script;
 }
 
 =encoding UTF-8
@@ -248,10 +260,7 @@ App::FatPacker - pack your dependencies onto your script file
   $ fatpack trace myscript.pl
   $ fatpack packlists-for `cat fatpacker.trace` >packlists
   $ fatpack tree `cat packlists`
-  $ (head -n1 myscript.pl |grep '^#!'; fatpack file; cat myscript.pl) >myscript.packed.pl
-
-The C<head -n1 myscript.pl |grep '^#!'> code pulls out the Unix shebang
-line, if there is one, and injects it at the start of the packed script.
+  $ fatpack file myscript.pl >myscript.packed.pl
 
 See the documentation for the L<fatpack> script itself for more information.
 
