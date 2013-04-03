@@ -270,6 +270,10 @@ App::FatPacker - pack your dependencies onto your script file
 
 =head1 SYNOPSIS
 
+  $ fatpack pack myscript.pl >myscript.packed.pl
+
+Or, with more step-by-step control:
+
   $ fatpack trace myscript.pl
   $ fatpack packlists-for `cat fatpacker.trace` >packlists
   $ fatpack tree `cat packlists`
