@@ -101,12 +101,7 @@ sub script_command_trace {
 sub trace {
   my ($self, %opts) = @_;
 
-  my $capture;
-
-  my $output = $opts{output} || do {
-    $capture++; '>&STDOUT'
-  };
-
+  my $output = $opts{output};
   my $trace_opts = join ',', $output||'>&STDOUT', @{$opts{use}||[]};
 
   local $ENV{PERL5OPT} = '-MApp::FatPacker::Trace='.$trace_opts;
