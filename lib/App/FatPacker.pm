@@ -32,6 +32,17 @@ sub lines_of {
   map +(chomp,$_)[1], do { local @ARGV = ($_[0]); <> };
 }
 
+sub maybe_shebang {
+  my ($file) = @_;
+  open my $in, "<", $file or die "$file: $!";
+  my $head = <$in>;
+  if ($head =~ m/^#\!/) {
+    ($head, do { local $/; <$in> });
+  } else {
+    ('', do { local $/; $head . <$in> });
+  }
+}
+
 sub stripspace {
   my ($text) = @_;
   $text =~ /^(\s+)/ && $text =~ s/^$1//mg;
@@ -65,6 +76,20 @@ sub run_script {
 
 sub script_command_help {
   print "Try `perldoc fatpack` for how to use me\n";
+}
+
+sub script_command_pack {
+  my ($self, $args) = @_;
+
+  my @modules = split /\r?\n/, $self->trace(args => $args);
+  my @packlists = $self->packlists_containing(\@modules);
+
+  my $base = catdir(cwd, 'fatlib');
+  $self->packlists_to_tree($base, \@packlists);
+
+  my $file = shift @$args;
+  my($head, $body) = maybe_shebang($file);
+  print $head, $self->fatpack_file($file), $body;
 }
 
 sub script_command_trace {
