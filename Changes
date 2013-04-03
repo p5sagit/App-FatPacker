@@ -1,5 +1,8 @@
 Revision history for App-FatPacker
 
+  - avoid fatal error when lib/ doesn't exist (now it is simply skipped)
+    (RT#84413, miyagawa)
+
 0.009013 - 2013-01-22
   - fix to support for < 5.8 perls (haarg)
 
