@@ -181,6 +181,11 @@ sub packlists_to_tree {
 sub script_command_file {
   my ($self, $args) = @_;
   my $file = shift @$args;
+  print $self->fatpack_file($file);
+}
+
+sub fatpack_file {
+  my ($self, $file) = @_;
   my $cwd = cwd;
   my @dirs = grep -d, map rel2abs($_, $cwd), ('lib','fatlib');
   my %files;
@@ -229,7 +234,7 @@ sub script_command_file {
     '$fatpacked{'.perlstring($_).qq!} = <<'${name}';\n!
     .qq!${data}${name}\n!;
   } sort keys %files;
-  print join "\n", $start, @segments, $end;
+  return join "\n", $start, @segments, $end;
 }
 
 =encoding UTF-8
