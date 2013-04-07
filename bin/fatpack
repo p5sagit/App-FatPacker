@@ -13,7 +13,7 @@ fatpack - Command line frontend for App::FatPacker
   $ fatpack pack myscript.pl > myscript.packed.pl
 
 A shortcut to do all the work of tracing, collecting packlists,
-extracting modules in fatlib, then concatinating into a packed script
+extracting modules in fatlib, then concatenating into a packed script
 - in one shot. If you need more detailed controls for additional
 modules, use the following commands separately (see L</RECIPES>).
 
