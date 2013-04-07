@@ -1,5 +1,6 @@
 Revision history for App-FatPacker
 
+0.009015 - 2013-04-07
   - new 'pack' command, to do everything in one command (thanks, miyagawa!)
     (RT#84415)
 
