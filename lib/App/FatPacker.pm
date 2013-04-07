@@ -32,6 +32,17 @@ sub lines_of {
   map +(chomp,$_)[1], do { local @ARGV = ($_[0]); <> };
 }
 
+sub maybe_shebang {
+  my ($file) = @_;
+  open my $in, "<", $file or die "$file: $!";
+  my $head = <$in>;
+  if ($head =~ m/^#\!/) {
+    ($head, do { local $/; <$in> });
+  } else {
+    ('', do { local $/; $head . <$in> });
+  }
+}
+
 sub stripspace {
   my ($text) = @_;
   $text =~ /^(\s+)/ && $text =~ s/^$1//mg;
@@ -65,6 +76,20 @@ sub run_script {
 
 sub script_command_help {
   print "Try `perldoc fatpack` for how to use me\n";
+}
+
+sub script_command_pack {
+  my ($self, $args) = @_;
+
+  my @modules = split /\r?\n/, $self->trace(args => $args);
+  my @packlists = $self->packlists_containing(\@modules);
+
+  my $base = catdir(cwd, 'fatlib');
+  $self->packlists_to_tree($base, \@packlists);
+
+  my $file = shift @$args;
+  my($head, $body) = maybe_shebang($file);
+  print $head, $self->fatpack_file($file), $body;
 }
 
 sub script_command_trace {
@@ -101,12 +126,7 @@ sub script_command_trace {
 sub trace {
   my ($self, %opts) = @_;
 
-  my $capture;
-
-  my $output = $opts{output} || do {
-    $capture++; '>&STDOUT'
-  };
-
+  my $output = $opts{output};
   my $trace_opts = join ',', $output||'>&STDOUT', @{$opts{use}||[]};
 
   local $ENV{PERL5OPT} = '-MApp::FatPacker::Trace='.$trace_opts;
@@ -186,6 +206,11 @@ sub packlists_to_tree {
 sub script_command_file {
   my ($self, $args) = @_;
   my $file = shift @$args;
+  print $self->fatpack_file($file);
+}
+
+sub fatpack_file {
+  my ($self, $file) = @_;
   my $cwd = cwd;
   my @dirs = grep -d, map rel2abs($_, $cwd), ('lib','fatlib');
   my %files;
@@ -234,7 +259,7 @@ sub script_command_file {
     '$fatpacked{'.perlstring($_).qq!} = <<'${name}';\n!
     .qq!${data}${name}\n!;
   } sort keys %files;
-  print join "\n", $start, @segments, $end;
+  return join "\n", $start, @segments, $end;
 }
 
 =encoding UTF-8
@@ -244,6 +269,10 @@ sub script_command_file {
 App::FatPacker - pack your dependencies onto your script file
 
 =head1 SYNOPSIS
+
+  $ fatpack pack myscript.pl >myscript.packed.pl
+
+Or, with more step-by-step control:
 
   $ fatpack trace myscript.pl
   $ fatpack packlists-for `cat fatpacker.trace` >packlists
