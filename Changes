@@ -1,5 +1,6 @@
 Revision history for App-FatPacker
 
+0.009016 - 2013-04-07
   - 'file' command now takes care of keeping its original shebang line when given
     the original file as its argument. The 'pack' command makes use of that too.
     (Robin Smidsrod, miyagawa)
