@@ -1,5 +1,8 @@
 Revision history for App-FatPacker
 
+  - new 'pack' command, to do everything in one command (thanks, miyagawa!)
+    (RT#84415)
+
 0.009014 - 2013-04-03
   - avoid fatal error when lib/ doesn't exist (now it is simply skipped)
     (RT#84413, miyagawa)
