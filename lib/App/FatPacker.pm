@@ -32,17 +32,6 @@ sub lines_of {
   map +(chomp,$_)[1], do { local @ARGV = ($_[0]); <> };
 }
 
-sub maybe_shebang {
-  my ($file) = @_;
-  open my $in, "<", $file or die "$file: $!";
-  my $head = <$in>;
-  if ($head =~ m/^#\!/) {
-    ($head, do { local $/; <$in> });
-  } else {
-    ('', do { local $/; $head . <$in> });
-  }
-}
-
 sub stripspace {
   my ($text) = @_;
   $text =~ /^(\s+)/ && $text =~ s/^$1//mg;
@@ -88,8 +77,7 @@ sub script_command_pack {
   $self->packlists_to_tree($base, \@packlists);
 
   my $file = shift @$args;
-  my($head, $body) = maybe_shebang($file);
-  print $head, $self->fatpack_file($file), $body;
+  print $self->fatpack_file($file);
 }
 
 sub script_command_trace {
@@ -259,7 +247,19 @@ sub fatpack_file {
     '$fatpacked{'.perlstring($_).qq!} = <<'${name}';\n!
     .qq!${data}${name}\n!;
   } sort keys %files;
-  return join "\n", $start, @segments, $end;
+  my $shebang = "";
+  my $script = "";
+  if ( defined $file and -r $file ) {
+    open my $fh, "<", $file or die("Can't read $file: $!");
+    $shebang = <$fh>;
+    $script = join "", <$fh>;
+    close $fh;
+    unless ( index($shebang, '#!') == 0 ) {
+      $script = $shebang . $script;
+      $shebang = "";
+    }
+  }
+  return join "\n", $shebang, $start, @segments, $end, $script;
 }
 
 =encoding UTF-8
@@ -277,10 +277,7 @@ Or, with more step-by-step control:
   $ fatpack trace myscript.pl
   $ fatpack packlists-for `cat fatpacker.trace` >packlists
   $ fatpack tree `cat packlists`
-  $ (head -n1 myscript.pl |grep '^#!'; fatpack file; cat myscript.pl) >myscript.packed.pl
-
-The C<head -n1 myscript.pl |grep '^#!'> code pulls out the Unix shebang
-line, if there is one, and injects it at the start of the packed script.
+  $ fatpack file myscript.pl >myscript.packed.pl
 
 See the documentation for the L<fatpack> script itself for more information.
 
