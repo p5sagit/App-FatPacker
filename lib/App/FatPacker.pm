@@ -205,7 +205,7 @@ sub fatpack_file {
   foreach my $dir (@dirs) {
     find(sub {
       return unless -f $_;
-      !/\.pm$/ and warn "File ${File::Find::name} isn't a .pm file - can't pack this and if you hoped we were going to things may not be what you expected later\n" and return;
+      !/\.pm$/ and warn "File ${File::Find::name} isn't a .pm file - can't pack this -- if you hoped we were going to, things may not be what you expected later\n" and return;
       $files{File::Spec::Unix->abs2rel($File::Find::name,$dir)} = do {
         local (@ARGV, $/) = ($File::Find::name); <>
       };
