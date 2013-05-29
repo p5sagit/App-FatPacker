@@ -127,7 +127,7 @@ sub trace {
     return;
   } else {
     # no output target specified, slurp
-    open my $out_fh, '-|', $^X, @args;
+    open my $out_fh, "$^X @args |";
     return do { local $/; <$out_fh> };
   }
 }
