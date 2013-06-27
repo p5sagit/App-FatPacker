@@ -295,7 +295,7 @@ sub fatpack_code {
     (my $stub = $_) =~ s/\.pm$//;
     my $name = uc join '_', split '/', $stub;
     my $data = $files->{$_}; $data =~ s/^/  /mg; $data =~ s/(?<!\n)\z/\n/;
-    '$fatpacked{'.perlstring($_).qq!} = <<'${name}';\n!
+    '$fatpacked{'.perlstring($_).qq!} = '#line '.(1+__LINE__).' "'.__FILE__."\\"\\n".<<'${name}';\n!
     .qq!${data}${name}\n!;
   } sort keys %$files;
 
@@ -354,6 +354,8 @@ sawyer - Sawyer X (cpan:XSAWYERX) <xsawyerx@cpan.org>
 ether - Karen Etheridge (cpan:ETHER) <ether@cpan.org>
 
 Mithaldu - Christian Walde (cpan:MITHALDU) <walde.christian@googlemail.com>
+
+dolmen - Olivier Mengué (cpan:DOLMEN) <dolmen@cpan.org>
 
 Many more people are probably owed thanks for ideas. Yet
 another doc nit to fix.
