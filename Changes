@@ -1,5 +1,8 @@
 Revision history for App-FatPacker
 
+  - deal with relative paths better by changing options passed to File::Find
+    (RT#84414, miyagawa)
+
 0.009017   2013-05-29
   - fix fatal "List form of piped open not implemented" on MSWin32 (RT#85712,
     ether)
