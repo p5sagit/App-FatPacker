@@ -7,7 +7,7 @@ use Getopt::Long;
 use Cwd qw(cwd);
 use File::Find qw(find);
 use File::Spec::Functions qw(
-  catdir splitpath splitdir catpath rel2abs abs2rel
+  catdir catfile splitpath splitdir catpath rel2abs abs2rel
 );
 use File::Spec::Unix;
 use File::Copy qw(copy);
@@ -168,23 +168,28 @@ sub packlists_to_tree {
   my ($self, $where, $packlists) = @_;
   rmtree $where;
   mkpath $where;
+  # Build a copy of @INC with dir separator added after each path
+  my @inc = map
+    { catfile($_, '') }
+    @INC;
   foreach my $pl (@$packlists) {
-    my ($vol, $dirs, $file) = splitpath $pl;
-    my @dir_parts = splitdir $dirs;
-    my $pack_base;
-    PART: foreach my $p (0 .. $#dir_parts) {
-      if ($dir_parts[$p] eq 'auto') {
-        # $p-2 since it's <wanted path>/$Config{archname}/auto
-        $pack_base = catpath $vol, catdir @dir_parts[0..$p-2];
-        last PART;
-      }
-    }
-    die "Couldn't figure out base path of packlist ${pl}" unless $pack_base;
     foreach my $source (lines_of $pl) {
+      my $base;
+      foreach my $inc_base (@inc) {
+        # XXX Not case-proof (for case ignorant filesystems)
+        if (substr($source,0,length $inc_base) eq $inc_base) {
+          $base = $inc_base;
+          last;
+        }
+      }
+      unless ($base) {
+        die "Couldn't figure out \@INC path of ${source}" if substr($source, -3) eq '.pm';
+        next;
+      }
+
       # there is presumably a better way to do "is this under this base?"
       # but if so, it's not obvious to me in File::Spec
-      next unless substr($source,0,length $pack_base) eq $pack_base;
-      my $target = rel2abs( abs2rel($source, $pack_base), $where );
+      my $target = rel2abs( abs2rel($source, $base), $where );
       my $target_dir = catpath((splitpath $target)[0,1]);
       mkpath $target_dir;
       copy $source => $target;
