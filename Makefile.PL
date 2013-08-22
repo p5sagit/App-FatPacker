@@ -16,8 +16,15 @@ WriteMakefile(
     'meta-spec' => { version => '2' },
     resources => {
       # r/w: p5sagit@git.shadowcat.co.uk:App-FatPacker.git
-      repository => "git://git.shadowcat.co.uk/p5sagit/App-FatPacker.git",
-      homepage => 'http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=p5sagit/App-FatPacker.git',
+      repository => {
+        url => 'git://git.shadowcat.co.uk/p5sagit/App-FatPacker.git',
+        web => 'http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=p5sagit/App-FatPacker.git',
+        type => 'git',
+      },
+      bugtracker => {
+          mailto => 'bug-App-FatPacker-Metadata@rt.cpan.org',
+          web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=App-FatPacker',
+      },
     },
     requires => {
         perl => '5.008000',
