@@ -4,7 +4,7 @@ Revision history for App-FatPacker
     caller() now point directly to the right line in the script
     (RT#87118, DOLMEN)
 
-0.009018 - 2013-07-26
+0.009018   2013-07-26
   - deal with relative paths better by changing options passed to File::Find
     (RT#84414, miyagawa)
 
