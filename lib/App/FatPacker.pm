@@ -268,24 +268,38 @@ sub fatpack_end {
   return stripspace <<'  END_END';
     s/^  //mg for values %fatpacked;
 
-    unshift @INC, sub {
-      if (my $fat = $fatpacked{$_[1]}) {
-        if ($] < 5.008) {
-          return sub {
-            return 0 unless length $fat;
-            $fat =~ s/^([^\n]*\n?)//;
-            $_ = $1;
-            return 1;
-          };
-        }
-        open my $fh, '<', \$fat
-          or die "FatPacker error loading $_[1] (could be a perl installation issue?)";
-        return $fh;
-      }
-      return
-    };
 
-    } # END OF FATPACK CODE
+    if ($] < 5.008) {
+       unshift @INC, sub {
+         if (my $fat = $fatpacked{$_[1]}) {
+           return sub {
+             return 0 unless length $fat;
+             $fat =~ s/^([^\n]*\n?)//;
+             $_ = $1;
+             return 1;
+           };
+         }
+         return;
+      }
+    }
+
+    else {
+
+      my $class = "${\\%fatpacked}";
+      unshift @INC, bless \%fatpacked, $class;
+      *{"${class}::files"} = sub { keys %{$_[0]} };
+      *{"${class}::INC"} = sub {
+  	if (my $fat = $_[0]{$_[1]}) {
+          open my $fh, '<', \$fat
+            or die "FatPacker error loading $_[1] (could be a perl installation issue?)";
+          return $fh;
+        }
+        return;
+      };
+
+    }
+
+  } # END OF FATPACK CODE
   END_END
 }
 
