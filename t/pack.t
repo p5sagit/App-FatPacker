@@ -42,11 +42,32 @@ require $temp_fh;
   ok $t::mod::a::foo eq 'bar', "packed script works";
 }
 
+{
+
+    ok ref $INC[0], "\$INC[0] is a reference";
+    ok $INC[0]->can( "files" ), "\$INC[0] has a files method";
+
+    my @files = sort $INC[0]->files;
+
+    is_deeply( \@files, [ 't/mod/a.pm',
+			't/mod/b.pm',
+			't/mod/c.pm',
+			't/mod/cond.pm',
+			], "\$INC[0]->files returned the files" );
+
+}
+
+
 if (my $testwith = $ENV{'FATPACKER_TESTWITH'}) {
   for my $perl (split ' ', $testwith) {
     my $out = system $perl, '-e',
         q{alarm 5; require $ARGV[0]; require t::mod::a; exit($t::mod::a::foo eq 'bar' ? 0 : 1)}, $temp_fh;
     ok !$out, "packed script works with $perl";
+
+    $out = system $perl, '-e',
+        q{alarm 5; require $ARGV[0]; exit( (sort $INC[0]->files)[0] eq 't/mod/a.pm' ? 0 : 1 )}, $temp_fh;
+    ok !$out, "\$INC[0]->files works with $perl";
+
   }
 }
 
