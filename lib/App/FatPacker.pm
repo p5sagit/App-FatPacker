@@ -268,9 +268,12 @@ sub fatpack_end {
   return stripspace <<'  END_END';
     s/^  //mg for values %fatpacked;
 
+    my $class = "${\\%fatpacked}";
+    *{"${class}::files"} = sub { keys %{$_[0]} };
 
     if ($] < 5.008) {
-       unshift @INC, sub {
+
+      *{"${class}::INC"} = sub {
          if (my $fat = $fatpacked{$_[1]}) {
            return sub {
              return 0 unless length $fat;
@@ -285,9 +288,6 @@ sub fatpack_end {
 
     else {
 
-      my $class = "${\\%fatpacked}";
-      unshift @INC, bless \%fatpacked, $class;
-      *{"${class}::files"} = sub { keys %{$_[0]} };
       *{"${class}::INC"} = sub {
   	if (my $fat = $_[0]{$_[1]}) {
           open my $fh, '<', \$fat
@@ -299,6 +299,7 @@ sub fatpack_end {
 
     }
 
+    unshift @INC, bless \%fatpacked, $class;
   } # END OF FATPACK CODE
   END_END
 }
