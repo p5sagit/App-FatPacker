@@ -49,11 +49,12 @@ require $temp_fh;
 
     my @files = sort $INC[0]->files;
 
-    is_deeply( \@files, [ 't/mod/a.pm',
-			't/mod/b.pm',
-			't/mod/c.pm',
-			't/mod/cond.pm',
-			], "\$INC[0]->files returned the files" );
+    is_deeply( \@files, [
+        't/mod/a.pm',
+        't/mod/b.pm',
+        't/mod/c.pm',
+        't/mod/cond.pm',
+    ], "\$INC[0]->files returned the files" );
 
 }
 

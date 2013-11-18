@@ -283,20 +283,18 @@ sub fatpack_end {
            };
          }
          return;
-      }
+      };
     }
 
     else {
-
       *{"${class}::INC"} = sub {
-  	if (my $fat = $_[0]{$_[1]}) {
+        if (my $fat = $_[0]{$_[1]}) {
           open my $fh, '<', \$fat
             or die "FatPacker error loading $_[1] (could be a perl installation issue?)";
           return $fh;
         }
         return;
       };
-
     }
 
     unshift @INC, bless \%fatpacked, $class;
