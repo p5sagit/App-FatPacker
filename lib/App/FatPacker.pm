@@ -268,13 +268,13 @@ sub fatpack_end {
   return stripspace <<'  END_END';
     s/^  //mg for values %fatpacked;
 
-    my $class = "${\\%fatpacked}";
+    my $class = 'FatPacked::'.(0+\%fatpacked);
+    no strict 'refs';
     *{"${class}::files"} = sub { keys %{$_[0]} };
 
     if ($] < 5.008) {
-
       *{"${class}::INC"} = sub {
-         if (my $fat = $fatpacked{$_[1]}) {
+         if (my $fat = $_[0]{$_[1]}) {
            return sub {
              return 0 unless length $fat;
              $fat =~ s/^([^\n]*\n?)//;
