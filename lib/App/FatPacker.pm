@@ -372,6 +372,8 @@ Mithaldu - Christian Walde (cpan:MITHALDU) <walde.christian@googlemail.com>
 
 dolmen - Olivier Mengué (cpan:DOLMEN) <dolmen@cpan.org>
 
+djerius - Diab Jerius (cpan:DJERIUS) <djerius@cpan.org>
+
 Many more people are probably owed thanks for ideas. Yet
 another doc nit to fix.
 
