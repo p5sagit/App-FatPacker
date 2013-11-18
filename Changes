@@ -1,5 +1,7 @@
 Revision history for App-FatPacker
 
+  - use object for @INC hook instead of subref, including a 'files' method to
+    return a list of files provided
   - generate #line relative to the whole fatpacked script so die() reports and
     caller() now point directly to the right line in the script
     (RT#87118, DOLMEN)
