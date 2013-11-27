@@ -372,6 +372,8 @@ dolmen - Olivier Mengué (cpan:DOLMEN) <dolmen@cpan.org>
 
 djerius - Diab Jerius (cpan:DJERIUS) <djerius@cpan.org>
 
+haarg - Graham Knop (cpan:HAARG> <haarg@haarg.org>
+
 Many more people are probably owed thanks for ideas. Yet
 another doc nit to fix.
 
