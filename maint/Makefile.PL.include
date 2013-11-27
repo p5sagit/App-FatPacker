@@ -6,5 +6,4 @@ author 'mst - Matt S. Trout (cpan:MSTROUT) <mst@shadowcat.co.uk>';
 
 manifest_include 'bin' => qr/.*/;
 manifest_include 't/mod' => qr/.*/;
-
-
+manifest_include 't/line' => qr/.*\.p[ml]/;
