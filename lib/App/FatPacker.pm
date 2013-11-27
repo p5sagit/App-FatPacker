@@ -14,7 +14,7 @@ use File::Copy qw(copy);
 use File::Path qw(mkpath rmtree);
 use B qw(perlstring);
 
-our $VERSION = '0.009018'; # 0.009.017
+our $VERSION = '0.010000'; # 0.10.0
 
 $VERSION = eval $VERSION;
 
@@ -334,7 +334,7 @@ Or, with more step-by-step control:
 
 See the documentation for the L<fatpack> script itself for more information.
 
-The programmatic API for this code is not yet fully decided, hence the 0.9
+The programmatic API for this code is not yet fully decided, hence the 0.x
 release version. Expect that to be cleaned up for 1.0.
 
 =head1 SEE ALSO
