@@ -79,7 +79,7 @@ from the command line as such:
 
     perl -MApp::FatPacker::Trace [...]
 
-You can control the paramters to the import using an equal sign, as such:
+You can control the parameters to the import using an equal sign, as such:
 
     # send the parameter "hello"
     perl -MApp::FatPacker::Trace=hello [...]

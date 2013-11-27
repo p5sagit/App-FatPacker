@@ -343,7 +343,7 @@ L<article for Perl Advent 2012|http://www.perladvent.org/2012/2012-12-14.html>
 
 =head1 SUPPORT
 
-Your current best avenue is to come annoy annoy mst on #toolchain on
+Your current best avenue is to come annoy mst on #toolchain on
 irc.perl.org. There should be a non-IRC means of support by 1.0.
 
 =head1 AUTHOR
