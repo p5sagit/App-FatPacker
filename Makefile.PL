@@ -28,7 +28,7 @@ WriteMakefile(
       },
     },
     requires => {
-        # B::perlstring was added in 5.8.0
+        # B::perlstring was added in B 1.01 (perl 5.8.0)
         perl => '5.008000',
     },
   },
