@@ -117,7 +117,8 @@ sub trace {
   my $output = $opts{output};
   my $trace_opts = join ',', $output||'>&STDOUT', @{$opts{use}||[]};
 
-  local $ENV{PERL5OPT} = '-MApp::FatPacker::Trace='.$trace_opts;
+  local $ENV{PERL5OPT} = join ' ',
+    ($ENV{PERL5OPT}||()), '-MApp::FatPacker::Trace='.$trace_opts;
 
   my @args = @{$opts{args}||[]};
 
