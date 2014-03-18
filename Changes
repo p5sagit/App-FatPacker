@@ -1,5 +1,6 @@
 Revision history for App-FatPacker
 
+0.010001 - 2014-03-18
   - include 'lib' in @INC for packlists_containing's require() calls
 
 0.010000 - 2013-11-27
