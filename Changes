@@ -1,5 +1,7 @@
 Revision history for App-FatPacker
 
+  - include 'lib' in @INC for packlists_containing's require() calls
+
 0.010000 - 2013-11-27
   - use object for @INC hook instead of subref, including a 'files' method to
     return a list of files provided

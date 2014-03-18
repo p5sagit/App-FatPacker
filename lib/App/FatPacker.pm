@@ -143,8 +143,11 @@ sub script_command_packlists_for {
 sub packlists_containing {
   my ($self, $targets) = @_;
   my @targets = @$targets;
-  foreach my $t (@targets) {
-    require $t;
+  {
+    local @INC = ('lib', @INC);
+    foreach my $t (@targets) {
+      require $t;
+    }
   }
   my @search = grep -d $_, map catdir($_, 'auto'), @INC;
   my %pack_rev;
