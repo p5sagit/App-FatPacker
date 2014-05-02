@@ -1,5 +1,8 @@
 Revision history for App-FatPacker
 
+  - added "KNOWN ISSUES" section to POD about multiple copies of a
+    module in @INC
+
 0.010001 - 2014-03-18
   - include 'lib' in @INC for packlists_containing's require() calls
 

@@ -76,6 +76,20 @@ Current basic recipe for packing:
   $ fatpack tree `cat packlists`
   $ fatpack file myscript.pl >myscript.packed.pl
 
+=head1 KNOWN ISSUES
+
+Be aware that if there multiple copies of a module in your @INC
+(including the lib subdirectory of your current working directory),
+then fatpack may not be able to find the packlist file for that
+module. A workaround is to run fatpack from an empty directory with an
+empty PEL5LIB:
+
+  $ cd `mktemp -d`
+  $ env PERL5LIB= fatpack trace myscript.pl
+  $ env PERL5LIB= fatpack packlists-for `cat fatpacker.trace` >packlists
+  $ env PERL5LIB= fatpack tree `cat packlists`
+  $ env PERL5LIB= fatpack file myscript.pl >myscript.packed.pl
+
 =head1 COPYRIGHT, LICENSE, AUTHOR
 
 See the corresponding sections in L<App::FatPacker>.
