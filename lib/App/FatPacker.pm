@@ -70,6 +70,10 @@ sub script_command_help {
 sub script_command_pack {
   my ($self, $args) = @_;
 
+  $args = $self->call_parser($args => [
+    'core-only' => \my $core_only,
+  ]);
+
   my @modules = split /\r?\n/, $self->trace(args => $args);
   my @packlists = $self->packlists_containing(\@modules);
 
@@ -77,7 +81,7 @@ sub script_command_pack {
   $self->packlists_to_tree($base, \@packlists);
 
   my $file = shift @$args;
-  print $self->fatpack_file($file);
+  print $self->fatpack_file($file, $core_only);
 }
 
 sub script_command_trace {
@@ -198,12 +202,17 @@ sub packlists_to_tree {
 
 sub script_command_file {
   my ($self, $args) = @_;
+
+  $args = $self->call_parser($args => [
+    'core-only' => \my $core_only,
+  ]);
+
   my $file = shift @$args;
-  print $self->fatpack_file($file);
+  print $self->fatpack_file($file, $core_only);
 }
 
 sub fatpack_file {
-  my ($self, $file) = @_;
+  my ($self, $file, $core_only) = @_;
 
   my $shebang = "";
   my $script = "";
@@ -215,7 +224,10 @@ sub fatpack_file {
   my %files;
   $self->collect_files($_, \%files) for @dirs;
 
-  return join "\n", $shebang, $self->fatpack_code(\%files), $script;
+  my $lib_reset =
+    "BEGIN { use Config; \@INC = \@Config{qw(privlibexp archlibexp sitelibexp sitearchexp)} }\n";
+
+  return join "\n", $shebang, ($core_only ? $lib_reset : ()), $self->fatpack_code(\%files), $script;
 }
 
 # This method can be overload in sub classes

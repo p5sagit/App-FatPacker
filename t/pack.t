@@ -25,13 +25,16 @@ chdir $tempdir;
 my $fp = App::FatPacker->new;
 my $temp_fh = File::Temp->new;
 select $temp_fh;
-$fp->script_command_file;
+$fp->script_command_file([qw/--core-only/]);
 print "1;\n";
 select STDOUT;
 close $temp_fh;
 
 # make sure we don't pick up things from our created dir
 chdir File::Spec->tmpdir;
+
+my $guts = do { local (@ARGV,$/) = "$temp_fh"; <> };
+like( $guts, qr/\QBEGIN { use Config\E/, "saw core-only preamble" );
 
 # Packed, now try using it:
 require $temp_fh;
