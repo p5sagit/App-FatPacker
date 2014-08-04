@@ -27,9 +27,13 @@ WriteMakefile(
           web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=App-FatPacker',
       },
     },
-    requires => {
-        # B::perlstring was added in B 1.01 (perl 5.8.0)
-        perl => '5.008000',
+    prereqs => {
+      runtime => {
+        requires => {
+          # B::perlstring was added in B 1.01 (perl 5.8.0)
+          perl => '5.008000',
+        },
+      },
     },
   },
 );
