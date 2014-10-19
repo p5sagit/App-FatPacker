@@ -2,6 +2,8 @@ use strict;
 use warnings FATAL => 'all';
 use ExtUtils::MakeMaker;
 
+use 5.008000;
+
 (do 'maint/Makefile.PL.include' or die $@) unless -f 'META.yml';
 
 WriteMakefile(
