@@ -34,6 +34,22 @@ WriteMakefile(
         requires => {
           # B::perlstring was added in B 1.01 (perl 5.8.0)
           perl => '5.008000',
+          'B' => '1.01',
+          'Cwd' => '0',
+          'File::Copy' => '0',
+          'File::Find' => '0',
+          'File::Path' => '0',
+          'File::Spec::Functions' => '0',
+          'File::Spec::Unix' => '0',
+          'Getopt::Long;' => '0',
+        },
+      },
+      test => {
+        requires => {
+          'File::Basename' => '0',
+          'File::Spec' => '0',
+          'File::Temp' => '0',
+          'Test::More' => '0',
         },
       },
     },
