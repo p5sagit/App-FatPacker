@@ -1,5 +1,7 @@
 Revision history for App-FatPacker
 
+  - exclude virtual %INC entries from trace output
+
 0.010002 - 2014-08-16
   - correctly specify perl prerequisite of 5.8 in meta files
 

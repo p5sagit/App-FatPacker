@@ -30,6 +30,7 @@ CHECK {
 
   for my $inc (keys %INC) {
     next if exists $initial_inc{$inc};
+    next unless $INC{$inc} =~ /\Q${inc}\E\Z/;
     print $trace "$inc\n";
   }
 }
