@@ -41,7 +41,7 @@ WriteMakefile(
           'File::Path' => '0',
           'File::Spec::Functions' => '0',
           'File::Spec::Unix' => '0',
-          'Getopt::Long;' => '0',
+          'Getopt::Long' => '0',
         },
       },
       test => {
