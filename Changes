@@ -1,5 +1,6 @@
 Revision history for App-FatPacker
 
+0.010003 - 2015-04-17
   - exclude virtual %INC entries from trace output
 
 0.010002 - 2014-08-16
