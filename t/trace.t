@@ -6,6 +6,7 @@ use Test::More qw(no_plan);
 test_trace("t/mod/a.pm" => ("t/mod/b.pm", "t/mod/c.pm"));
 test_trace("t/mod/b.pm" => ("t/mod/c.pm"));
 test_trace("t/mod/c.pm" => ());
+test_trace("t/d.pl" => ("t/mod/d.pm"));
 
 # Attempts to conditionally load a module that isn't present
 test_trace("t/mod/cond.pm" => ());
@@ -17,13 +18,9 @@ sub test_trace {
   system($^X, "-Mblib", "-MApp::FatPacker::Trace", $file);
 
   open my $trace, "<", "fatpacker.trace";
-  while(<$trace>) {
-    chomp;
-    my $load = $_;
-    @loaded = grep { $load ne $_ } @loaded;
-  }
+  my @traced = sort map { chomp; $_ } <$trace>;
 
-  ok !@loaded, "All expected modules loaded for $file";
+  is_deeply \@loaded, \@traced, "All expected modules loaded for $file";
   unlink "fatpacker.trace";
 }
 

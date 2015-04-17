@@ -54,6 +54,7 @@ require $temp_fh;
         't/mod/b.pm',
         't/mod/c.pm',
         't/mod/cond.pm',
+        't/mod/d.pm',
     ], "\$INC[0]->files returned the files" );
 
 }
