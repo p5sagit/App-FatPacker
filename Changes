@@ -1,5 +1,7 @@
 Revision history for App-FatPacker
 
+  - fix tests to work reliably on win32
+
 0.010003 - 2015-04-17
   - exclude virtual %INC entries from trace output
 
