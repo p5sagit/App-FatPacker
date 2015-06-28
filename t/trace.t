@@ -15,6 +15,7 @@ sub test_trace {
   my($file, @loaded) = @_;
   local $Test::Builder::Level = $Test::Builder::Level + 1;
 
+  unlink "fatpacker.trace";
   system($^X, "-Mblib", "-MApp::FatPacker::Trace", $file);
 
   open my $trace, "<", "fatpacker.trace";
