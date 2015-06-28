@@ -25,3 +25,5 @@ nytprof*
 
 # yes that's right, distar makes it for us
 /MANIFEST.SKIP
+
+/fatpacker.trace
