@@ -20,6 +20,7 @@ sub test_trace {
 
   open my $trace, "<", "fatpacker.trace";
   my @traced = sort map { chomp; $_ } <$trace>;
+  close $trace;
 
   is_deeply \@traced, \@loaded, "All expected modules loaded for $file";
   unlink "fatpacker.trace";
