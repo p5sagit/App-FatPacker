@@ -1,5 +1,6 @@
 Revision history for App-FatPacker
 
+0.010004 - 2015-06-28
   - fix tests to work reliably on win32
 
 0.010003 - 2015-04-17
