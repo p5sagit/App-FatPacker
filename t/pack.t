@@ -11,18 +11,22 @@ use Cwd;
 use App::FatPacker;
 
 my $keep = $ENV{'FATPACKER_KEEP_TESTDIR'};
-my $tempdir = tempdir($keep ? (CLEANUP => 0) : (CLEANUP => 1));
+
+my $cwd = getcwd;
+my $tempdir = tempdir('fatpacker-XXXXX', DIR => "$cwd/t", $keep ? (CLEANUP => 0) : (CLEANUP => 1));
 mkpath([<$tempdir/{lib,fatlib}/t/mod>]);
 
 for(<t/mod/*.pm>) {
   copy $_, "$tempdir/lib/$_" or die "copy failed: $!";
 }
 
-my $cwd = getcwd;
 chdir $tempdir;
 
 my $fp = App::FatPacker->new;
-my $temp_fh = File::Temp->new;
+my $packed_file = "$tempdir/script";
+open my $temp_fh, '>', $packed_file
+  or die "can't write to $packed_file: $!";
+
 select $temp_fh;
 $fp->script_command_file;
 print "1;\n";
@@ -33,7 +37,7 @@ close $temp_fh;
 chdir File::Spec->tmpdir;
 
 # Packed, now try using it:
-require $temp_fh;
+require $packed_file;
 
 {
   require t::mod::a;
