@@ -1,4 +1,3 @@
-#!perl
 use strict;
 use warnings FATAL => 'all';
 use Test::More qw(no_plan);
@@ -9,7 +8,7 @@ use File::Temp qw/tempdir/;
 use File::Spec;
 use Cwd;
 
-BEGIN { use_ok "App::FatPacker", "" }
+use App::FatPacker;
 
 my $keep = $ENV{'FATPACKER_KEEP_TESTDIR'};
 my $tempdir = tempdir($keep ? (CLEANUP => 0) : (CLEANUP => 1));

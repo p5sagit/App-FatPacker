@@ -1,11 +1,10 @@
-#!perl
 use strict;
 use warnings FATAL => 'all';
-use Test::More tests => 3;
+use Test::More tests => 2;
 use File::Temp qw/tempdir/;
 use File::Spec;
 
-BEGIN { use_ok "App::FatPacker", "" }
+use App::FatPacker;
 
 chdir 't/line';
 
