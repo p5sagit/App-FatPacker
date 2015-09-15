@@ -50,7 +50,7 @@ WriteMakefile(
           'File::Basename' => '0',
           'File::Spec' => '0',
           'File::Temp' => '0',
-          'Test::More' => '0',
+          'Test::More' => '0.82',
         },
       },
     },
