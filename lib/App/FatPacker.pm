@@ -349,8 +349,10 @@ L<article for Perl Advent 2012|http://www.perladvent.org/2012/2012-12-14.html>
 
 =head1 SUPPORT
 
-Your current best avenue is to come annoy mst on #toolchain on
-irc.perl.org. There should be a non-IRC means of support by 1.0.
+Bugs may be submitted through L<the RT bug tracker|https://rt.cpan.org/Public/Dist/Display.html?Name=App-FatPacker>
+(or L<bug-App-FatPacker@rt.cpan.org|mailto:bug-App-FatPacker@rt.cpan.org>).
+
+You can normally also obtain assistance on irc, in #toolchain on irc.perl.org.
 
 =head1 AUTHOR
 
