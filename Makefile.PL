@@ -17,7 +17,6 @@ WriteMakefile(
   META_MERGE => {
     'meta-spec' => { version => '2' },
     dynamic_config => 0,
-    x_static_install => 1,
     resources => {
       # r/w: p5sagit@git.shadowcat.co.uk:App-FatPacker.git
       repository => {
