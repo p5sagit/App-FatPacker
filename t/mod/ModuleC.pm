@@ -1,4 +1,4 @@
-package t::mod::c;
+package ModuleC;
 
 sub xyz {
   shift()

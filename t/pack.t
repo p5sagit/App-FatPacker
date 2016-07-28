@@ -14,10 +14,10 @@ my $keep = $ENV{'FATPACKER_KEEP_TESTDIR'};
 
 my $cwd = getcwd;
 my $tempdir = tempdir('fatpacker-XXXXX', DIR => "$cwd/t", $keep ? (CLEANUP => 0) : (CLEANUP => 1));
-mkpath([<$tempdir/{lib,fatlib}/t/mod>]);
+mkpath([<$tempdir/{lib,fatlib}>]);
 
-for(<t/mod/*.pm>) {
-  copy $_, "$tempdir/lib/$_" or die "copy failed: $!";
+for (<t/mod/*.pm>) {
+  copy $_, "$tempdir/lib/".basename($_) or die "copy failed: $!";
 }
 
 chdir $tempdir;
@@ -40,9 +40,9 @@ chdir File::Spec->tmpdir;
 require $packed_file;
 
 {
-  require t::mod::a;
+  require ModuleA;
   no warnings 'once';
-  ok $t::mod::a::foo eq 'bar', "packed script works";
+  ok $ModuleA::foo eq 'bar', "packed script works";
 }
 
 {
@@ -53,11 +53,11 @@ require $packed_file;
     my @files = sort $INC[0]->files;
 
     is_deeply( \@files, [
-        't/mod/a.pm',
-        't/mod/b.pm',
-        't/mod/c.pm',
-        't/mod/cond.pm',
-        't/mod/d.pm',
+        'ModuleA.pm',
+        'ModuleB.pm',
+        'ModuleC.pm',
+        'ModuleCond.pm',
+        'ModuleD.pm',
     ], "\$INC[0]->files returned the files" );
 
 }
@@ -66,11 +66,11 @@ require $packed_file;
 if (my $testwith = $ENV{'FATPACKER_TESTWITH'}) {
   for my $perl (split ' ', $testwith) {
     my $out = system $perl, '-e',
-        q{alarm 5; require $ARGV[0]; require t::mod::a; exit($t::mod::a::foo eq 'bar' ? 0 : 1)}, $temp_fh;
+        q{alarm 5; require $ARGV[0]; require ModuleA; exit($ModuleA::foo eq 'bar' ? 0 : 1)}, $temp_fh;
     ok !$out, "packed script works with $perl";
 
     $out = system $perl, '-e',
-        q{alarm 5; require $ARGV[0]; exit( (sort $INC[0]->files)[0] eq 't/mod/a.pm' ? 0 : 1 )}, $temp_fh;
+        q{alarm 5; require $ARGV[0]; exit( (sort $INC[0]->files)[0] eq 'ModuleA.pm' ? 0 : 1 )}, $temp_fh;
     ok !$out, "\$INC[0]->files works with $perl";
 
   }
