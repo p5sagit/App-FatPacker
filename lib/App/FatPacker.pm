@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 use 5.008001;
 use Getopt::Long;
-use Cwd qw(cwd);
+use Cwd qw(abs_path cwd);
 use File::Find qw(find);
 use File::Spec::Functions qw(
   catdir splitpath splitdir catpath rel2abs abs2rel
@@ -155,10 +155,10 @@ sub packlists_containing {
     no_chdir => 1,
     wanted => sub {
       return unless /[\\\/]\.packlist$/ && -f $_;
-      $pack_rev{$_} = $File::Find::name for lines_of $File::Find::name;
+      $pack_rev{abs_path($_)} = $File::Find::name for lines_of $File::Find::name;
     },
   }, @search);
-  my %found; @found{map +($pack_rev{Cwd::abs_path($INC{$_})}||()), @targets} = ();
+  my %found; @found{map +($pack_rev{abs_path($INC{$_})}||()), @targets} = ();
   sort keys %found;
 }
 
