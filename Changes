@@ -1,5 +1,7 @@
 Revision history for App-FatPacker
 
+  - fix tests to no longer rely on . being in @INC
+
 0.010005 - 2015-12-14
   - fix fatpacked code to work properly on perl 5.6 in all cases
   - removed x_static_install metadata (RT#110299)
