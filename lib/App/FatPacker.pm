@@ -178,8 +178,11 @@ sub packlists_to_tree {
     my $pack_base;
     PART: foreach my $p (0 .. $#dir_parts) {
       if ($dir_parts[$p] eq 'auto') {
-        # $p-2 since it's <wanted path>/$Config{archname}/auto
-        $pack_base = catpath $vol, catdir @dir_parts[0..$p-2];
+        # $p-2 normally since it's <wanted path>/$Config{archname}/auto but
+        # if the last bit is a number it's $Config{archname}/$version/auto
+        # so use $p-3 in that case
+        my $version_lib = 0+!!($dir_parts[$p-1] =~ /^[0-9.]+$/);
+        $pack_base = catpath $vol, catdir @dir_parts[0..$p-(2+$version_lib)];
         last PART;
       }
     }

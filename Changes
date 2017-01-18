@@ -1,5 +1,6 @@
 Revision history for App-FatPacker
 
+  - detect and handle packing from within inc dirs w/version part
   - fix tests to no longer rely on . being in @INC
 
 0.010005 - 2015-12-14
