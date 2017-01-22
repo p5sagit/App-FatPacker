@@ -142,11 +142,16 @@ sub script_command_packlists_for {
 
 sub packlists_containing {
   my ($self, $targets) = @_;
-  my @targets = @$targets;
+  my @targets;
   {
     local @INC = ('lib', @INC);
-    foreach my $t (@targets) {
-      require $t;
+    foreach my $t (@$targets) {
+      unless (eval { require $t; 1}) {
+        warn "Failed to load ${t}: $@\n"
+            ."Make sure you're not missing a packlist as a result\n";
+        next;
+      }
+      push @targets, $t;
     }
   }
   my @search = grep -d $_, map catdir($_, 'auto'), @INC;
