@@ -1,5 +1,7 @@
 Revision history for App-FatPacker
 
+  - don't fail tracing w/undef INC values due to failed optional module load
+
 0.010_006 - 2017-01-20
   - detect and handle packing from within inc dirs w/version part
   - fix tests to no longer rely on . being in @INC
