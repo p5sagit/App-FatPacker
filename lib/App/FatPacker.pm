@@ -346,14 +346,31 @@ Or, with more step-by-step control:
   $ fatpack tree `cat packlists`
   $ fatpack file myscript.pl >myscript.packed.pl
 
-See the documentation for the L<fatpack> script itself for more information.
+Each command is designed to be simple and self-contained so that you can modify
+the input/output of each step as needed. See the documentation for the
+L<fatpack> script itself for more information.
 
 The programmatic API for this code is not yet fully decided, hence the 0.x
 release version. Expect that to be cleaned up for 1.0.
 
+=head1 CAVEATS
+
+As dependency module code is copied into the resulting file as text, only
+pure-perl dependencies can be packed, not compiled XS code.
+
+The currently-installed dependencies to pack are found via F<.packlist> files,
+which are generally only included in non-core distributions that were installed
+by a CPAN installer. This is a feature; see L<fatpack/packlists-for> for
+details. (a notable exception to this is FreeBSD, which, since its packaging
+system is designed to work equivalently to a source install, does preserve
+the packlist files)
+
 =head1 SEE ALSO
 
 L<article for Perl Advent 2012|http://www.perladvent.org/2012/2012-12-14.html>
+
+L<pp> - PAR Packager, a much more complex architecture-dependent packer that
+can pack compiled code and even a Perl interpreter
 
 =head1 SUPPORT
 

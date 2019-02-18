@@ -1,5 +1,6 @@
 Revision history for App-FatPacker
 
+  - documentation improvements
   - switch to letting EUMM rewrite fatpack's #!
 
 0.010007 - 2017-01-22
