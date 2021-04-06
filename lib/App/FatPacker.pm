@@ -64,7 +64,7 @@ sub run_script {
 }
 
 sub script_command_help {
-  print "Try `perldoc fatpack` for how to use me\n";
+  print STDERR "Try `perldoc fatpack` for how to use me\n";
 }
 
 sub script_command_pack {
